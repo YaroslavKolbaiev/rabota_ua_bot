@@ -11,7 +11,7 @@ KEY_WORDS = [
     "годину",
 ]
 
-COVER_LETTER = "Hi\n\nI am automated bot created by yaroslavkolbaiev@gmail.com\n\nMy task is to look for a vacancies on <robota.ua> while my creator is busy with solving tech related tasks\n\nPlease check his portfolio at https://portfolio-page-alpha-black.vercel.app\n\nThank you for your time\n\nHave a great day"
+COVER_LETTER = "Hi\n\nI am automated bot created by yaroslavkolbaiev@gmail.com\n\nMy task is to look for a vacancies, while my creator is busy with solving tech related tasks\n\nPlease check his portfolio at https://portfolio-page-alpha-black.vercel.app\n\nThank you for your time\n\nHave a great day"
 
 
 class VacancyManager:
@@ -60,6 +60,19 @@ class VacancyManager:
         print(f"All vacancies for {self.category} have been processed.")
 
     def apply_for_vacancy(self):
+        try:
+            already_applied = self.driver.find_element(
+                By.CSS_SELECTOR, "div.santa-bg-green-200"
+            )
+            print("Already applied for this vacancy. Skipping...")
+            sleep(1)
+            self.driver.close()
+            sleep(1)
+            self.driver.switch_to.window(self.driver.window_handles[0])
+            return
+        except Exception as e:
+            pass
+
         apply_button = self.driver.find_element(
             By.CSS_SELECTOR, "button.primary-normal"
         )
